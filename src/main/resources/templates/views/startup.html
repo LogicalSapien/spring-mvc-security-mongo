@@ -1,0 +1,15 @@
+<div th:fragment="startup">
+    <br />
+    <form action="#" th:action="@{/startup}" th:object="${user}" method="post">
+        <label for="username">User Name</label>
+        <input type="text" th:field="*{username}" id="username" placeholder="User Name">
+        <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
+        <label for="email">Email</label>
+        <input type="text" th:field="*{email}" id="email" placeholder="Email">
+        <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+        <label for="password">Password</label>
+        <input type="password" th:field="*{password}" id="password" placeholder="Password">
+        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+        <input type="submit" value="Start">
+    </form>
+</div>
