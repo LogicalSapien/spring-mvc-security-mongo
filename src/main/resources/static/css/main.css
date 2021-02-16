@@ -122,4 +122,5 @@ span.error {
     display: block;
     padding: 0px 0px 15px 0px;
     margin-top: -12px;
+    font-size: small;
 }

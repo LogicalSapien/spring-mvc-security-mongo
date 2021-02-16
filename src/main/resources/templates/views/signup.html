@@ -3,13 +3,13 @@
     <form action="#" th:action="@{/signup}" th:object="${user}" method="post">
         <label for="username">User Name</label>
         <input type="text" th:field="*{username}" id="username" placeholder="User Name">
-        <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
+        <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="error"></span>
         <label for="email">Email</label>
         <input type="text" th:field="*{email}" id="email" placeholder="Email">
-        <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+        <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error"></span>
         <label for="password">Password</label>
         <input type="password" th:field="*{password}" id="password" placeholder="Password">
-        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error"></span>
         <input type="submit" value="Sign Up">
     </form>
 </div>

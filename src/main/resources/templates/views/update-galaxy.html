@@ -1,15 +1,15 @@
-<div th:fragment="update-galaxy">
+<div th:fragment="update-galaxy" sec:authorize="hasRole('WRITE')">
     <br />
     <form action="#"
-      th:action="@{/update/{id}(id=${galaxy.id})}"
+      th:action="@{/update-galaxy/{id}(id=${galaxy.id})}"
       th:object="${galaxy}"
       method="post">
         <label for="name">Name</label>
         <input type="text" th:field="*{name}" id="name" placeholder="Name">
-        <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+        <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error"></span>
         <label for="email">Constellation</label>
         <input type="text" th:field="*{constellation}" id="email" placeholder="Constellation">
-        <span th:if="${#fields.hasErrors('constellation')}" th:errors="*{constellation}"></span>
+        <span th:if="${#fields.hasErrors('constellation')}" th:errors="*{constellation}" class="error"></span>
         <input type="submit" value="Update Galaxy">
     </form>
 </div>

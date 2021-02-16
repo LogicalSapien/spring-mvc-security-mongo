@@ -1,19 +1,18 @@
-<div th:fragment="login">
+<div th:fragment="update-user" sec:authorize="hasRole('ADMIN')">
     <br />
-    <span th:if="${param.error}" class="error">
-        <br />Invalid username or password.
-    </span>
-    <div th:if="${param.logout}" class="error">
-        You have been logged out.
-    </div>
-    <span class="rightli" style="float:right"><a href="#" th:href="@{/signup}">Sign Up</a></span>
-    <form action="#" th:action="@{/login}" th:object="${user}" method="post">
+    <form action="#"
+      th:action="@{/update-user/{id}(id=${user.username})}"
+      th:object="${user}"
+      method="post">
         <label for="username">User Name</label>
         <input type="text" th:field="*{username}" id="username" placeholder="User Name">
         <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="error"></span>
+        <label for="email">Email</label>
+        <input type="text" th:field="*{email}" id="email" placeholder="Email">
+        <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error"></span>
         <label for="password">Password</label>
         <input type="password" th:field="*{password}" id="password" placeholder="Password">
         <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error"></span>
-        <input type="submit" value="Login">
+        <input type="submit" value="Sign Up">
     </form>
 </div>

@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.Set;
 
 @Data
@@ -16,13 +17,14 @@ import java.util.Set;
 public class User {
 
     @Id
+    @NotBlank(message = "Username is mandatory")
     private String username;
     
     @Indexed(unique = true, direction = IndexDirection.DESCENDING)
     @NotBlank(message = "Email is mandatory")
     @Email(message = "Email format not correct")
     private String email;
-    
+
     private String password;
     
     private String name;

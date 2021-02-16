@@ -22,14 +22,14 @@ public class CustomUserDetailsService implements UserDetailsService {
     private UserService userService;
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        User user = userService.findUserByEmail(email);
-        if(user != null) {
+        User user = userService.findUserByUserName(username);
+        if(user != null && user.isEnabled()) {
             List<GrantedAuthority> authorities = getUserAuthority(user.getRoles());
             return buildUserForAuthentication(user, authorities);
         } else {
-            throw new UsernameNotFoundException("username not found");
+            throw new UsernameNotFoundException("Username not found or user is disabled.");
         }
     }
 
@@ -44,7 +44,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     private UserDetails buildUserForAuthentication(User user, List<GrantedAuthority> authorities) {
-        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
     }
 
 }

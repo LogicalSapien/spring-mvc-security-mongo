@@ -40,10 +40,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public void saveUser(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        user.setEnabled(true);
+        // default disabled, admin to enable
+        user.setEnabled(false);
+        // default read permission, admin to update
         Role userRole = roleRepository.findByRole("READ");
         user.setRoles(new HashSet<>(Arrays.asList(userRole)));
         userRepository.save(user);
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
     }
 
 }

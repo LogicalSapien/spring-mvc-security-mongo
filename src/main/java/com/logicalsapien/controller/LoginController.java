@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,6 +20,11 @@ public class LoginController {
 
     @Autowired
     private UserService userService;
+
+    @GetMapping("/")
+    public String indexPage() {
+        return "redirect:/list-galaxies";
+    }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(ModelMap model) {
@@ -36,7 +42,7 @@ public class LoginController {
     }
 
     @PostMapping("/signup")
-    public String createNewUser(@Valid User user, BindingResult bindingResult) {
+    public String createNewUser(@Valid User user, BindingResult bindingResult, ModelMap model) {
 
         User userExists = userService.findUserByEmail(user.getEmail());
         if (userExists != null) {
@@ -48,12 +54,13 @@ public class LoginController {
         userExists = userService.findUserByUserName(user.getUsername());
         if (userExists != null) {
             bindingResult
-                    .rejectValue("email", "error.user",
+                    .rejectValue("username", "error.user",
                             "There is already a user registered with the username provided");
         }
 
         if (bindingResult.hasErrors()) {
-            return "error-signup";
+            model.addAttribute("content", "signup");
+            return "index";
         }
 
         userService.saveUser(user);

@@ -1,10 +1,10 @@
 <div  th:fragment="header">
 
     <ul class="horizontal">
-        <li><a th:classappend="${content == 'list-galaxies' ? 'active' : ''}" href="#" th:href="@{/index}">Home</a></li>
-        <li><a th:classappend="${content == 'add-galaxy' ? 'active' : ''}" href="#" th:href="@{/creategalaxy}">Add Galaxy</a></li>
-        <li><a th:classappend="${content == 'list-users' ? 'active' : ''}" href="#" th:href="@{/users}">Users</a></li>
-        <li class="rightli" style="float:right"><a href="javascript:void(0)">Support</a></li>
+        <li sec:authorize="!isAuthenticated()"><a th:classappend="${'active'}" href="#" >Home</a></li>
+        <li sec:authorize="isAuthenticated()"><a th:classappend="${content == 'list-galaxies' ? 'active' : ''}" href="#" th:href="@{/list-galaxies}">Home</a></li>
+        <li sec:authorize="hasRole('ADMIN')"><a th:classappend="${content == 'list-users' ? 'active' : ''}" href="#" th:href="@{/list-users}">Users</a></li>
+        <li  sec:authorize="isAuthenticated()" class="rightli" style="float:right">Welcome <span sec:authentication="name">Name</span> (<span sec:authentication="principal.authorities">[READ]</span>), <a href="#" th:href="@{/logout}">Log Out</a></li>
     </ul>
 
 </div>

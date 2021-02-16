@@ -20,13 +20,11 @@ public class CustomizeAuthenticationSuccessHandler implements AuthenticationSucc
         //set our response to OK status
         response.setStatus(HttpServletResponse.SC_OK);
 
-        response.sendRedirect("/index");
-
-//        for (GrantedAuthority auth : authentication.getAuthorities()) {
-//            if ("ADMIN".equals(auth.getAuthority())) {
-//                response.sendRedirect("/list-galaxies");
-//            }
-//        }
+        for (GrantedAuthority auth : authentication.getAuthorities()) {
+            if ("READ".equals(auth.getAuthority()) || "WRITE".equals(auth.getAuthority()) || "ADMIN".equals(auth.getAuthority())) {
+                response.sendRedirect("/list-galaxies");
+            }
+        }
     }
 
 }
