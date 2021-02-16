@@ -1,0 +1,26 @@
+<div th:fragment="list-users">
+    <div th:switch="${users}">
+        <h2 th:case="null">No users yet!</h2>
+        <div th:case="*">
+            <h2>Galaxies</h2>
+            <table id="galaxies">
+                <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="user : ${users}">
+                    <td th:text="${user.username}"></td>
+                    <td th:text="${user.email}"></td>
+                    <td><a th:href="@{/edit/{id}(id=${user.username})}">Edit</a></td>
+                    <td><a th:href="@{/delete/{id}(id=${user.username})}">Delete</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

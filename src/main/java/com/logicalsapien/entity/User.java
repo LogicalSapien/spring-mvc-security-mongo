@@ -7,6 +7,8 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import java.util.Set;
 
 @Data
@@ -17,6 +19,8 @@ public class User {
     private String username;
     
     @Indexed(unique = true, direction = IndexDirection.DESCENDING)
+    @NotBlank(message = "Email is mandatory")
+    @Email(message = "Email format not correct")
     private String email;
     
     private String password;

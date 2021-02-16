@@ -5,6 +5,7 @@ import com.logicalsapien.entity.User;
 import com.logicalsapien.repository.RoleRepository;
 import com.logicalsapien.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -28,6 +29,9 @@ public class StartUpTasks {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public void populateDBWithRoles() {
 
@@ -69,15 +73,18 @@ public class StartUpTasks {
     }
 
     @PostMapping("/startup")
-    public String createNewUser(@Valid User user, BindingResult bindingResult) {
+    public String createStartupUser(@Valid User user, BindingResult bindingResult, ModelMap model) {
 
         List<User> users = userRepository.findAll();
         if (Objects.isNull(users) || users.size() == 0) {
             if (bindingResult.hasErrors()) {
-                return "error-signup";
+//                return "error-signup";
+                model.addAttribute("content", "startup");
+                return "index";
             }
 
             user.setEnabled(true);
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
             Role userRole = roleRepository.findByRole("ADMIN");
             user.setRoles(new HashSet<>(Arrays.asList(userRole)));
             userRepository.save(user);
@@ -85,6 +92,8 @@ public class StartUpTasks {
             dbUserListEmpty = false;
 
             return "redirect:/index";
+        } else {
+            model.addAttribute("content", "startup");
         }
 
         return "redirect:/index";
