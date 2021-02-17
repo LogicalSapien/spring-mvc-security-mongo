@@ -86,7 +86,7 @@ ul.horizontal2 a.active {
 }
 
 
-input[type=text], input[type=password], select, textarea {
+input[type=text], input[type=password], input[type=checkbox], select, textarea {
  width: 100%;
  padding: 12px;
  border: 1px solid #ccc;

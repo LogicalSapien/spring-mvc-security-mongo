@@ -10,7 +10,11 @@ public interface UserService {
 
     User findUserByEmail(String email);
 
-    void saveUser(User user);
+    User saveUser(User user);
 
     List<User> getAllUsers();
+
+    User updateUser(String username, User user);
+
+    void deleteGalaxy(String username);
 }

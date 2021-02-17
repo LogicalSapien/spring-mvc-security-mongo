@@ -1,4 +1,4 @@
-<div th:fragment="add-galaxy" sec:authorize="hasRole('WRITE')">
+<div th:fragment="add-galaxy" sec:authorize="hasAuthority('WRITE') || hasAuthority('ADMIN')">
     <br />
     <form action="#" th:action="@{/add-galaxy}" th:object="${galaxy}" method="post">
         <label for="name">Name</label>

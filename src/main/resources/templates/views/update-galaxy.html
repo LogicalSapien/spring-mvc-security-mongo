@@ -1,4 +1,4 @@
-<div th:fragment="update-galaxy" sec:authorize="hasRole('WRITE')">
+<div th:fragment="update-galaxy" sec:authorize="hasAuthority('WRITE') || hasAuthority('ADMIN')">
     <br />
     <form action="#"
       th:action="@{/update-galaxy/{id}(id=${galaxy.id})}"

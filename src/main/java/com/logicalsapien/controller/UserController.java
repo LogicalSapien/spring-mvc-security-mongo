@@ -1,6 +1,9 @@
 package com.logicalsapien.controller;
 
 import com.logicalsapien.entity.Galaxy;
+import com.logicalsapien.entity.Role;
+import com.logicalsapien.entity.User;
+import com.logicalsapien.repository.RoleRepository;
 import com.logicalsapien.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,12 +15,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     @GetMapping("/list-users")
     public String showGalaxies(ModelMap model) {
@@ -43,31 +50,34 @@ public class UserController {
 //        return "redirect:/list-galaxies";
 //    }
 //
-//    @GetMapping("/update-galaxy/{id}")
-//    public String showUpdateForm(@PathVariable("id") String id, ModelMap model) {
-//        Galaxy galaxy = galaxyService.getById(id);
-//
-//        model.addAttribute("galaxy", galaxy);
-//        model.addAttribute("content", "update-galaxy");
-//        return "index";
-//    }
-//
-//    @PostMapping("/update-galaxy/{id}")
-//    public String updateGalaxy(@PathVariable("id") String id, @Valid Galaxy galaxy,
-//                             BindingResult result, Model model) {
-//        if (result.hasErrors()) {
-//            galaxy.setId(id);
-//            model.addAttribute("content", "update-galaxy");
-//            return "index";
-//        }
-//
-//        galaxyService.saveGalaxy(galaxy);
-//        return "redirect:/list-galaxies";
-//    }
-//
-//    @GetMapping("/delete-galaxy/{id}")
-//    public String deleteGalaxy(@PathVariable("id") String id, Model model) {
-//        galaxyService.deleteGalaxy(id);
-//        return "redirect:/list-galaxies";
-//    }
+    @GetMapping("/update-user/{id}")
+    public String showUpdateForm(@PathVariable("id") String username, ModelMap model) {
+        User user = userService.findUserByUserName(username);
+
+        List<Role> roles = roleRepository.findAll();
+        model.addAttribute("user", user);
+        model.addAttribute("rolesList", roles);
+        model.addAttribute("content", "update-user");
+        return "index";
+    }
+
+    @PostMapping("/update-user/{id}")
+    public String updateGalaxy(@PathVariable("id") String username, @Valid User user,
+                             BindingResult result, Model model) {
+
+        if (result.hasErrors()) {
+            user.setUsername(username);
+            model.addAttribute("content", "update-user");
+            return "index";
+        }
+
+        userService.updateUser(username, user);
+        return "redirect:/list-users";
+    }
+
+    @GetMapping("/delete-user/{id}")
+    public String deleteGalaxy(@PathVariable("id") String username, Model model) {
+        userService.deleteGalaxy(username);
+        return "redirect:/list-users";
+    }
 }

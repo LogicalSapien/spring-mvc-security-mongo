@@ -38,19 +38,37 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void saveUser(User user) {
+    public User saveUser(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         // default disabled, admin to enable
         user.setEnabled(false);
         // default read permission, admin to update
         Role userRole = roleRepository.findByRole("READ");
         user.setRoles(new HashSet<>(Arrays.asList(userRole)));
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 
     @Override
     public List<User> getAllUsers() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public User updateUser(String username, User user) {
+        // fetch user
+        User userFromDB = findUserByUserName(username);
+        if (Objects.nonNull(user.getPassword()) && user.getPassword().length() > 0) {
+            userFromDB.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        }
+        userFromDB.setEmail(user.getEmail());
+        userFromDB.setEnabled(user.isEnabled());
+        userFromDB.setRoles(user.getRoles());
+        return userRepository.save(userFromDB);
+    }
+
+    @Override
+    public void deleteGalaxy(String username) {
+        userRepository.deleteById(username);
     }
 
 }

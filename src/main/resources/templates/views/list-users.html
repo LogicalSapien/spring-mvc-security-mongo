@@ -1,4 +1,4 @@
-<div th:fragment="list-users" sec:authorize="hasRole('ADMIN')">
+<div th:fragment="list-users" sec:authorize="hasAuthority('ADMIN')">
     <div th:switch="${users}">
         <h2 th:case="null">No users yet!</h2>
         <div th:case="*">

@@ -1,11 +1,11 @@
-<div th:fragment="update-user" sec:authorize="hasRole('ADMIN')">
+<div th:fragment="update-user" sec:authorize="hasAuthority('ADMIN')">
     <br />
     <form action="#"
       th:action="@{/update-user/{id}(id=${user.username})}"
       th:object="${user}"
       method="post">
         <label for="username">User Name</label>
-        <input type="text" th:field="*{username}" id="username" placeholder="User Name">
+        <input type="text" th:field="*{username}" id="username" placeholder="User Name" readonly >
         <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="error"></span>
         <label for="email">Email</label>
         <input type="text" th:field="*{email}" id="email" placeholder="Email">
@@ -13,6 +13,17 @@
         <label for="password">Password</label>
         <input type="password" th:field="*{password}" id="password" placeholder="Password">
         <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error"></span>
-        <input type="submit" value="Sign Up">
+        <label for="password">Enabled</label>
+        <input type="checkbox" th:field="*{enabled}" id="enabled" placeholder="enabled">
+        <span th:if="${#fields.hasErrors('enabled')}" th:errors="*{enabled}" class="error"></span>
+        <select id="roles" th:field="*{roles}" multiple="multiple">
+            <option th:each="hobby : ${rolesList}"
+                    th:value="${{hobby}}"
+                    th:text="${hobby.role}">
+                Cinema
+            </option>
+        </select>
+
+        <input type="submit" value="Save">
     </form>
 </div>

@@ -58,6 +58,12 @@ public class LoginController {
                             "There is already a user registered with the username provided");
         }
 
+        if (user.getPassword() == null || user.getPassword().length() < 4) {
+            bindingResult
+                    .rejectValue("password", "error.user",
+                            "Password is required and should be minimum 4 characters long");
+        }
+
         if (bindingResult.hasErrors()) {
             model.addAttribute("content", "signup");
             return "index";
